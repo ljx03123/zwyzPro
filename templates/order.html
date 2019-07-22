@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>知我药妆订单</title>
+    <link href="/static/css/goodcar.css" type="text/css" rel="stylesheet" />
+    <link href="/static/css/common.css" rel="stylesheet" type="text/css"/>
+    <script src="/static/js/jquery-1.12.0.js"></script>
+    <script>
+        $.ajaxSetup({
+            data:{csrfmiddlewaretoken:'{{ csrf_token }}'}
+        })
+    </script>
+    <script src="/static/js/jquery.cookie.js"></script>
+
+    <script src="/static/js/order.js"></script>
+</head>
+<body>
+<!---------------------------------------顶部导航---------------------------------->
+<div class="headertop">
+    <div class="headertop-box">
+        <!--左边-->
+        <ul class="headertop-left">
+            <li>欢迎来到知我！这里，用专业呵护美丽。</li>
+            {% if telphone %}
+                <li>{{ telphone }}</li>
+                <li><a href="{% url 'App:logout' %}">[退出登录]</a></li>
+            {% else %}
+                <li><a href="{% url 'App:login' %}">请登录</a></li>
+                <li><a href="{% url 'App:register' %}">快速注册</a></li>
+            {% endif %}
+        </ul>
+        <!--右边-->
+        <ul class="headertop-right">
+            <li class="item_personal item_btn">
+                <a href=""><span>微信商城</span><i></i></a>
+                <div class="item_personal_two item_cont">
+                    <p class="wechat_ewm_img"><img src="/static/images/common/2.jpg"></p>
+                </div>
+            </li>
+            <li class="item_phone"><a href=""><i></i>手机知我</a></li>
+            <li class="item_personal item_btn">
+                <a class="" href="" ><span>我的小窝</span><i></i></a>
+                <div class="item_personal_my item_cont">
+                    <ul>
+                        <li><a href="">我的订单</a></li>
+                        <li><a href="">我的优惠券</a></li>
+                        <li><a href="">我的收藏</a></li>
+                        <li><a href="">我的预订</a></li>
+                        <li><a href="">我的积分</a></li>
+                    </ul>
+                </div>
+            </li>
+            <li class="item_line">|</li>
+            <li class="item_service item_btn">
+                <a  href="" ><span>客户服务</span><i></i></a>
+                <div class="item_personal_client item_cont">
+                    <ul>
+                        <li><a href="">帮助中心</a></li>
+                        <li><a href="">新浪微博</a></li>
+                        <li><a href="">正品承诺</a></li>
+                        <li><a href="">真伪查询</a></li>
+                    </ul>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<!---------------------------------logo---------------------->
+<div class="header_logoimg">
+    <div class="header_logoimg_box">
+        <div class="logoimg_left">
+            <a href="{% url 'App:index' %}"><img src="/static/images/register/logo.jpg"/></a>
+        </div>
+        <div class="logoimg_right">
+            <ul class="step_img">
+                <li class="step_item step_item_present">
+                    <span class="step_num">1</span>
+                    <span class="step_line"><i></i></span>
+                </li>
+                <li class="step_item step_item_present">
+                    <span class="step_line"><i></i></span>
+                    <span class="step_num">2</span>
+                    <span class="step_line"><i></i></span>
+                </li>
+                <li class="step_item ">
+                    <span class="step_line"><i></i></span>
+                    <span class="step_num">3</span>
+                </li>
+            </ul>
+            <ul class="step_txt">
+                <li class="step_txt_1 step_item_present">我的购物车</li>
+                <li class="step_txt_2 step_item_present">确认订单信息</li>
+                <li class="step_txt_3 ">成功提交订单</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!---------------------主体部分---------------------->
+<div class="container">
+    <div class="shopcar_contbox">
+    <h2 class="address_message">收货信息</h2>
+        <div class="address_detail">
+    <label><input type="radio" name="address" checked>广东省深圳市宝安区西乡街道草围社区一路19号 &nbsp;&nbsp;&nbsp;&nbsp;  15014076166 &nbsp;&nbsp;&nbsp; &nbsp;  王晓刚</label> <br>
+            <br>
+    <label><input type="radio" name="address">广东省深圳市福田区福田街道金港路25号&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;13525487598&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;李丹丹</label>
+            </div>
+    </div>
+</div>
+<div class="container">
+    <div class="shopcar_contbox">
+        <!--购物车商品列表-->
+        <div class="mycart cb_title_h2">
+            <h2><p class="mycart_htitle"><span>我的订单</span><i>My Order</i></p><p class="mycart_htip"><span>运费每单<em>5</em>元</span><span>购买<em>任意两件</em>免运费</span></p></h2>
+
+            <div class="mycart_list_box">
+                <div class="mycart_list_goods">
+                    <div class="table_nav">
+                        <ul class="clearfix">
+                            <li class="table_nav_name">选购的商品</li>
+                            <li class="table_nav_price">单价</li>
+                            <li class="table_nav_amount">数量</li>
+                            <li class="table_nav_allpay">金额小计</li>
+                            <li class="table_nav_integral">赠送积分</li>
+
+                        </ul>
+                    </div>
+                    <div class="table_cont cart_products">
+                        <table class="table_item" id="cart_products">
+                            <tbody class="_tbody">
+
+                            </tbody>
+                        </table>
+                        <div class="mycart_allinfo_show">
+                            <div class="ui-entrance" style="margin-left:15px;margin-top:10px;"></div>
+                            <div class="myallinfo_show_one">
+                                <p class="myallinfo_gobuybtn"><a href="{% url 'App:goodcar' %}">返回购物车</a></p>
+                            </div>
+                            <div class="myallinfo_show_two">
+                                <p class="myallinfo_allamount">共<i></i>件商品</p>
+                                <p class="myallinfo_allpay"><span>应付金额（含运费）：</span><i>￥</i><em id="">0.00</em></p>
+                                <p class="myallinfo_gopaybtn"><a  id="pay" orderid="{{ order.id }}" order_id="{{ order.order_id }}">支付</a></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mycart_totalinfo">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-----------------------------------尾部-------------------->
+<div class="footer">
+    <div class="footer-box w1100">
+        <!--尾部表格-->
+        <div class="footer-center">
+            <div class="footer-center-left">
+                <table class="tab-one">
+                    <tr>
+                        <th>真品保证</th>
+                        <th>30天包退</th>
+                        <th>2件包邮</th>
+                        <th>药妆专柜</th>
+                        <th>关于知我</th>
+                        <th>新手指南</th>
+                        <th>联系方式</th>
+                    </tr>
+                    <tr>
+                        <td><a href="">品牌合作</a></td>
+                        <td><a href="">退换货政策</a></td>
+                        <td><a href="">配送政策</a></td>
+                        <td><a href="">肤质判定</a></td>
+                        <td><a href="">知我介绍</a></td>
+                        <td><a href="">购物流程</a></td>
+                        <td><a href="">在线客服咨询</a></td>
+                    </tr>
+                    <tr>
+                        <td><a href="">严格把关</a></td>
+                        <td><a href="">办理退换货</a></td>
+                        <td><a href="">快递查询</a></td>
+                        <td><a href="">肌肤问题</a></td>
+                        <td><a href="">商务合作</a></td>
+                        <td><a href="">支付方式</a></td>
+                        <td><a href=""><span style="font-weight: bold;">热线</span></a></td>
+                    </tr>
+                    <tr>
+                        <td><a href="">百度投资</a></td>
+                        <td><a href="">售后服务</a></td>
+                        <td><a href=""></a></td>
+                        <td><a href="">达人推荐</a></td>
+                        <td><a href="">友情链接</a></td>
+                        <td><a href="">化妆品品牌大全</a></td>
+                        <td><a href=""><span style="color: #00c8ff;font-size: 12px;font-weight: bold">400-630-1018</span></a></td>
+                    </tr>
+                    <tr>
+                        <td><a href="">全球品牌直供</a></td>
+                        <td><a href=""></a></td>
+                        <td><a href=""></a></td>
+                        <td><a href="">护肤常识</a></td>
+                        <td><a href="">开放API</a></td>
+                        <td><a href=""></a></td>
+                        <td><a href=""></a></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="footer-center-right">
+                <table class="tab-two">
+                    <tr>
+                        <th>知我微信商城</th>
+                    </tr>
+                    <tr>
+                        <th><img src="/static/images/common/2.jpg" style="width: 100px;height: 100px;"/></th>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+    <!--商家保证-->
+    <div class="footer_bus">
+        <ul class="">
+            <li class="fcb_invest">
+                <span>百度投资</span>
+            </li>
+            <li class="fcb_quality">
+                <span>真品保证</span>
+            </li>
+            <li class="fcb_return">
+                <span>30天包退</span>
+            </li>
+            <li class="fcb_mail">
+                <span>两件包邮</span>
+            </li>
+        </ul>
+    </div>
+    <div class="footer_copyright">
+        <p class="footer_c_text1">@2011-2014 般若天成（北京）科技有限公司 zhiwo.com 保留一切权利。客服热线：400-630-1018</p>
+        <p class="footer_c_text2">
+            <a rel="nofollow" target="_blank" href="http://www.miibeian.gov.cn/">京ICP备10047008号</a>
+            |
+            <a rel="nofollow" target="_blank" href="http://www.miibeian.gov.cn/">京ICP证110762号</a>
+            | 网公安备1101054365号 | 营业执照
+        </p>
+        <p>
+            <img alt="支付特约商家" src="/static/images/common/footer_copy_02.jpg" />
+            <img alt="快捷支付" src="/static/images/common/footer_copy_03.jpg" />
+            <img alt="网上交易保障中心" src="/static/images/common/footer_copy_05.jpg" />
+        </p>
+    </div>
+</div>
+</body>
+</html>

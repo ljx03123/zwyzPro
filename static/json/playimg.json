@@ -1,0 +1,22 @@
+[
+  {
+    "img": "/static/images/index/lunbo1.jpg",
+    "id": 1
+  },
+  {
+    "img": "/static/images/index/lunbo2.jpg",
+    "id": 2
+  },
+  {
+    "img": "/static/images/index/lunbo3.jpg",
+    "id": 3
+  },
+  {
+    "img": "/static/images/index/lunbo4.jpg",
+    "id": 4
+  },
+  {
+    "img": "/static/images/index/lunbo5.jpg",
+    "id": 5
+  }
+]
